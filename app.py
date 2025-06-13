@@ -47,7 +47,7 @@ sheet = client.open_by_key(GOOGLE_SHEET_ID).worksheet(SHEET_NAME)
 # ✅ Ensure a writable model directory inside your app
 MODEL_DIR = './models'
 os.makedirs(MODEL_DIR, exist_ok=True)
-reader = easyocr.Reader(['en', 'es', 'it'], gpu=False)
+reader = easyocr.Reader(['en', 'es', 'it'], gpu=False, model_storage_directory=MODEL_DIR)
 
 
 # ✅ OCR Functions
