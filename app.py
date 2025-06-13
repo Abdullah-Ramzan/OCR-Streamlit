@@ -8,17 +8,19 @@ import gspread
 from google.oauth2.service_account import Credentials
 import json
 import re
+from google.oauth2 import service_account
 # ✅ Groq API setup
 GROQ_API_KEY = "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"
 groq_client = Groq(api_key=GROQ_API_KEY)
 
 # ✅ Google Sheets setup
-GOOGLE_CREDENTIALS_FILE = 'ocr-streamlit-461706-8236ac858ab9.json'
+#GOOGLE_CREDENTIALS_FILE = 'ocr-streamlit-461706-8236ac858ab9.json'
+credentials = service_account.Credentials.from_service_account_info(st.secrets["google"])
 GOOGLE_SHEET_ID = '1UjJj0e4CgPT2RwUFy93rlRI-SRFFfVMC8Z4GbL1fHaI'
 SHEET_NAME = 'Sheet1'
 
 scope = ["https://www.googleapis.com/auth/spreadsheets"]
-credentials = Credentials.from_service_account_file(GOOGLE_CREDENTIALS_FILE, scopes=scope)
+credentials = Credentials.from_service_account_file(credentials, scopes=scope)
 client = gspread.authorize(credentials)
 sheet = client.open_by_key(GOOGLE_SHEET_ID).worksheet(SHEET_NAME)
 
