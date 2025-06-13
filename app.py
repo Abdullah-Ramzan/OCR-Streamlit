@@ -12,6 +12,7 @@ from google.oauth2 import service_account
 import easyocr
 import numpy as np
 import fitz
+import os
 
 
 # ✅ Groq API setup
@@ -43,7 +44,9 @@ scope = ["https://www.googleapis.com/auth/spreadsheets"]
 #credentials = Credentials.from_service_account_file(credentials, scopes=scope)
 #client = gspread.authorize(credentials)
 sheet = client.open_by_key(GOOGLE_SHEET_ID).worksheet(SHEET_NAME)
-
+# ✅ Ensure a writable model directory inside your app
+MODEL_DIR = './models'
+os.makedirs(MODEL_DIR, exist_ok=True)
 reader = easyocr.Reader(['en', 'es', 'it'], gpu=False)
 
 
