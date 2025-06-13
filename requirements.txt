@@ -58,3 +58,4 @@ urllib3==2.4.0
 easyocr
 numpy
 Pillow
+pymupdf
