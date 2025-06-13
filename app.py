@@ -11,6 +11,7 @@ import re
 from google.oauth2 import service_account
 import easyocr
 import numpy as np
+import fitz
 
 
 # ✅ Groq API setup
@@ -48,12 +49,16 @@ reader = easyocr.Reader(['en', 'es', 'it'], gpu=False)
 
 # ✅ OCR Functions
 def extract_text_from_pdf(file_bytes):
-    images = convert_from_bytes(file_bytes)
     text = ""
-    for img in images:
+    pdf_document = fitz.open(stream=file_bytes, filetype="pdf")
+
+    for page in pdf_document:
+        pix = page.get_pixmap(dpi=200)  # higher DPI for better OCR
+        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
         img_np = np.array(img)
         result = reader.readtext(img_np, detail=0)
         text += "\n".join(result) + "\n"
+
     return text
 
 def extract_text_from_image(file_bytes):
